@@ -1,107 +1,96 @@
-1.�����
-  ���ʹ�����ַ�ʽʵ���ļ��Ŀ�����
 
-��ҵ��
------------------------------------------------------------------------------------
-�������ݣ�
-   (1)IO��
-   (2)�߳� 
 
-1.IO��
-1.1 PrintStream��(�ص� ��BufferedReader�����ʹ��)
-(1)��������
-   java.io.PrintStream����Ҫ���ڷ���ش�ӡ�������͵��������ݡ�
+1.IO流
+1.1 PrintStream类(重点 与BufferedReader类搭配使用)
+(1)基本概念
+   java.io.PrintStream类主要用于方便地打印各种类型的数据内容。
 
-(2)���õķ��� 
-   PrintStream(OutputStream out) - ���ݲ���ָ�������ù������
-       - ����OutputStream���Ǹ������࣬ʵ����Ҫ��������Ķ���
-   void print(String s) - ���ڴ�ӡ����ָ�����ַ�����
-   void println(String x) - ���ڴ�ӡ�ַ��������С�
+(2)常用的方法 
+   PrintStream(OutputStream out) - 根据参数指定的引用构造对象。
+       - 其中OutputStream类是个抽象类，实参需要传递子类的对象。
+   void print(String s) - 用于打印参数指定的字符串。
+   void println(String x) - 用于打印字符串并换行。
    void close()
  
-1.2 ObjectOutputStream��(�ص�)
-(1)��������
-   java.io.ObjectOutputStream����Ҫ���ڽ�Java���ԵĶ�������д��������С�  
-   ֻ�ܽ�֧�� java.io.Serializable �ӿڵĶ���д�����С�
-   ��ͨ��ʵ�� java.io.Serializable �ӿ������������л����ܡ�
-   ��ν���л�����ָ��һ�������е�����������Ч����֯���ֽ����е�ת�����̡�
+1.2 ObjectOutputStream类(重点)
+(1)基本概念
+   java.io.ObjectOutputStream类主要用于将Java语言的对象整体写入输出流中。  
+   只能将支持 java.io.Serializable 接口的对象写入流中。
+   类通过实现 java.io.Serializable 接口以启用其序列化功能。
+   所谓序列化就是指将一个对象中的所有内容有效地组织成字节序列的转化过程。
 
-(2)���õķ���    
-   ObjectOutputStream(OutputStream out) - ���ݲ���ָ�����������������
-      - ����OutputStream���Ǹ������࣬ʵ����Ҫ��������Ķ���
+(2)常用的方法    
+   ObjectOutputStream(OutputStream out) - 根据参数指定的引用来构造对象。
+      - 其中OutputStream类是个抽象类，实参需要传递子类的对象。
    void writeObject(Object obj) 
-      - ���ڽ�����ָ���Ķ���objд��������С�
+      - 用于将参数指定的对象obj写入输出流中。
    void close()
 
-1.3 ObjectInputStream��(�ص�)
-(1)��������
-   java.io.ObjectInputStream����Ҫ���ڴ��������н����������ȡ������
+1.3 ObjectInputStream类(重点)
+(1)基本概念
+   java.io.ObjectInputStream类主要用于从输入流中将对象整体读取出来。
 
-(2)���õķ���
-   ObjectInputStream(InputStream in) - ���ݲ���ָ�����������������
-       - ����InputStream���Ǹ������࣬ʵ����Ҫ��������Ķ���
+(2)常用的方法
+   ObjectInputStream(InputStream in) - 根据参数指定的引用来构造对象。
+       - 其中InputStream类是个抽象类，实参需要传递子类的对象。
    Object readObject() 
-       - ���ڴ��������ж�ȡһ�����󲢷���
-       - �÷����޷�ͨ������ֵ�ж��Ƿ����ĩβ��
+       - 用于从输入流中读取一个对象并返回
+       - 该方法无法通过返回值判断是否读到末尾。
    void close()
 
-����ķ�����
-   ����Ҫ���������д���ļ�ʱ��ͨ�������Ƚ�����������һ�������У�Ȼ��Ѽ��Ͽ���һ����������д���ȥ����ʱֻ��Ҫ����һ��readObject()�Ϳ��Խ��������ݶ�ȡ������
+经验的分享：
+   当需要将多个对象写入文件时，通常建议先将多个对象放入一个集合中，然后把集合看做一个对象整体写入进去，此时只需要调用一次readObject()就可以将所有内容读取出来。
 
-2.�߳�(�ص�)
-2.1 ��������
-   ���� - ���ݽṹ + �㷨����Ҫָ�����Ӳ���ϵĿ�ִ���ļ���
-   ���� - ��Ҫָ�������ڴ��еĳ���
+2.线程(重点)
+2.1 基本概念
+   程序 - 数据结构 + 算法，主要指存放在硬盘上的可执行文件。
+   进程 - 主要指运行在内存中的程序。
    
-   Ŀǰ�����Ĳ���ϵͳ��֧�ֶ���̣���Ϊ��ͬʱִ�ж�����񣬵��������������ģ��½����̶�ϵͳ��Դ�����ıȽϴ���˽��̵������Ƚ����ޡ�
-   �̱߳����Ͼ��ǽ����ڲ��ĳ�������Ҳ���ǲ���ϵͳ��֧�ֶ���̣���ÿ��������֧�ֶ��̣߳������߳����������ģ��½��̻߳Ṳ�����ڽ��̵���Դ����������Ŀ��������ö��̡߳�
-   Ŀǰ�����Ĳ���ϵͳ������ʱ��Ƭ��ת����ʵ�ֲ���ִ�е�Ч������ν�������Ǻ�۲���΢�۴��еĻ��ơ�
+   目前主流的操作系统都支持多进程，是为了同时执行多个任务，但进程是重量级的，新建进程对系统资源的消耗比较大，因此进程的数量比较有限。
+   线程本质上就是进程内部的程序流，也就是操作系统中支持多进程，而每个进程中支持多线程，并且线程是轻量级的，新建线程会共享所在进程的资源，因此主流的开发都采用多线程。
+   目前主流的操作系统都采用时间片轮转法来实现并发执行的效果，所谓并发就是宏观并行微观串行的机制。
     
-2.2 �̵߳Ĵ���(����֮��)
-(1)������ʽ
-   java.lang.Thread�����������̣߳�Java���������Ӧ�ó�����Բ�����ִ�ж���̡߳�
-   �̵߳Ĵ�����������ʽ���£�
-       a.�Զ�����̳�Thread�ಢ��дrun()������Ȼ�󴴽�����������start()������
-       b.�Զ�����ʵ��Runnable�ӿڲ���дrun()������Ȼ�󴴽����������Ϊʵ�ι���               Thread��Ķ������ʹ��Thread��������start()������
+2.2 线程的创建(重中之重)
+(1)创建方式
+   java.lang.Thread类用于描述线程，Java虚拟机允许应用程序可以并发地执行多个线程。
+   线程的创建和启动方式如下：
+       a.自定义类继承Thread类并重写run()方法，然后创建该类对象调用start()方法。
+       b.自定义类实现Runnable接口并重写run()方法，然后创建该类对象作为实参构造               Thread类的对象，最后使用Thread类对象调用start()方法。
 
-(2)��صķ���
-   Thread() - ʹ���޲η�ʽ�������
-   Thread(String name) - ���ݲ���ָ�������ƹ������
-   Thread(Runnable target) - ���ݲ���ָ���Ľӿ����ù������
-   Thread(Runnable target, String name) - �������ú����ƹ������
+(2)相关的方法
+   Thread() - 使用无参方式构造对象。
+   Thread(String name) - 根据参数指定的名称构造对象。
+   Thread(Runnable target) - 根据参数指定的接口引用构造对象。
+   Thread(Runnable target, String name) - 根据引用和名称构造对象。
 
    void run() 
-      - ���̶߳����ǲ���Runnable���ù���ʱ�������յ���Runnable����ָ���run������ 
-      - ������ø÷������ʾʲôҲ������
+      - 当线程对象是采用Runnable引用构造时，则最终调用Runnable引用指向的run方法。 
+      - 否则调用该方法则表示什么也不做。
    void start() 
-      - ���������̣߳�Java��������Զ����ø��̵߳�run()������
+      - 用于启动线程，Java虚拟机会自动调用该线程的run()方法。
 
-(3)ԭ������
-   a.ִ��main()�������߳̽������̣߳�ִ��run()�������߳̽�����/���̡߳�
-   b.����start()����֮ǰ�Ĵ�����˵�������߳�ִ��һ�Σ���start()�������óɹ�֮�����̵߳ĸ���˲����1�������2�����������������߳�ȥִ��run()�����������̼߳�������ִ�У������̸߳��Զ������С�
-   c.��run()���������������߳���ֹ����main()���������������߳̽����� 
+(3)原理分析
+   a.执行main()方法的线程叫做主线程，执行run()方法的线程叫做新/子线程。
+   b.对于start()方法之前的代码来说，由主线程执行一次，当start()方法调用成功之后，则线程的个数瞬间由1个变成了2个，其中新启动的线程去执行run()方法，而主线程继续向下执行，两个线程各自独立运行。
+   c.当run()方法结束后，则子线程终止；当main()方法结束后，则主线程结束。 
 
-ע�⣺
-   �̴߳����ķ�ʽһ�����˵����򵥣�������̳�Thread�����޷��̳������࣬�������ķ�ʽ����Դ��븴�ӣ�����Ӱ�����̳��������Լ�ʵ�������ӿڣ�����Ƽ��ڶ��ַ�ʽ��
+注意：
+   线程创建的方式一相对来说代码简单，但该类继承Thread类后就无法继承其它类，而创建的方式二相对代码复杂，但不影响该类继承其它类以及实现其它接口，因此推荐第二种方式。
 
-2.3 �̵߳���Ҫ״̬(�˽�)
-   �½�״̬ - ��ʹ��new�ؼ��ִ�������֮������״̬��
-            - ��ʱ�̻߳�û�п�ʼִ�С�
-   ����״̬ - ���̶߳������start()����������״̬��
-            - ��ʱ�߳���Ȼû�п�ʼִ�С�
-   ����״̬ - ���������̱߳��̵߳���������֮������״̬��
-            - ��ʱ�߳̿�ʼִ�С�
-            - ���̵߳�ʱ��Ƭִ����ϵ�����û�����ʱ�ص�����״̬��
-   ����״̬ - ���̵߳�ʱ��Ƭִ������������Ѿ���ɺ�����״̬��
-            - ��ʱ�߳��Ѿ���ֹ��
-   ����״̬ - ���߳�ִ�еĹ����з��������¼�������״̬���磺����sleep()������
-            - ������״̬�����֮����ص�����״̬��
+2.3 线程的主要状态(了解)
+   新建状态 - 当使用new关键字创建对象之后进入的状态。
+            - 此时线程还没有开始执行。
+   就绪状态 - 当线程对象调用start()方法后进入的状态。
+            - 此时线程依然没有开始执行。
+   运行状态 - 当就绪的线程被线程调度器调度之后进入的状态。
+            - 此时线程开始执行。
+            - 当线程的时间片执行完毕但任务还没有完成时回到就绪状态。
+   消亡状态 - 当线程的时间片执行完毕且任务已经完成后进入的状态。
+            - 此时线程已经终止。
+   阻塞状态 - 当线程执行的过程中发生阻塞事件后进入的状态，如：调用sleep()方法。
+            - 当阻塞状态被解除之后则回到就绪状态。
 
-��ҵ��
-   1.�ص������̴߳��������ַ�ʽ��
-   2.Ҫ����ѧ����Ϣ����ϵͳ�������������ܣ�
-      a.Ҫ����������Ŀʱ���ȶ�ȡ�ļ��е�����ѧ����Ϣ��
-      b.Ҫ���˳�����Ŀʱ�������е�ѧ����Ϣд�뵽�ļ��С� 
+
 
 
 
